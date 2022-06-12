@@ -1,0 +1,15 @@
+.button {
+	height: 40px;
+	width: 50%;
+	background-color: rgb(227, 185, 134);
+	color: rgb(0, 0, 0);
+	cursor: pointer;
+	border: 1px solid grey;
+	border-radius: 2px;
+	font-size: 16px;
+	border: none;
+}
+
+.button:hover {
+	background-color: bisque;
+}
