@@ -9,14 +9,29 @@
 	color: rgb(26, 27, 25);
 }
 
-.form > form > input {
+.form > form > div > input {
 	height: 3.5rem;
 	width: 100%;
 	margin-bottom: 1rem;
 	font-size: 1em;
 }
 
-.form > form > input[type='submit'] {
+.form > form > div > textarea {
+	height: 6.5rem;
+	margin-bottom: 1rem;
+	font-size: 1em;
+	resize: none;
+	font-family: -apple-system, sans-serif;
+	display: block;
+	width: 100%;
+}
+
+.form > form > div > label {
+	color: rgb(43, 43, 42);
+	font-size: 1.2em;
+}
+
+.form > form > div > input[type='submit'] {
 	cursor: pointer;
 	background-color: rgb(4, 92, 4);
 	color: #fff;
@@ -24,6 +39,6 @@
 	border: none;
 }
 
-.form > form > input[type='submit']:hover {
+.form > form > div > input[type='submit']:hover {
 	background-color: rgb(36, 74, 36);
 }

@@ -1,19 +1,30 @@
 //styles
 import styles from '../../styles/form.module.css'
 
-const NewMeetup = () => {
-	const handleSubmit = async event => {
-		event.preventDefault()
-		const postEndpoint = '/api/add-meetup'
+//components
+import MeetupForm from '../../components/meetups/MeetupForm'
 
+//nextjs
+import { useRouter } from 'next/router'
+
+//react
+import { useState } from 'react'
+
+const NewMeetupPage = () => {
+	const router = useRouter()
+	const [addingData, setAddingData] = useState(false)
+	const handleSubmit = async event => {
+		setAddingData(true)
+		event.preventDefault()
 		const userData = {
 			title: event.target.title.value,
-			description: event.target.description.value,
-			address: event.target.address.value,
 			imageUrl: event.target.imageUrl.value,
+			address: event.target.address.value,
+			description: event.target.description.value,
 		}
 		const JSONdata = JSON.stringify(userData)
 
+		const postEndpoint = '/api/add-meetup'
 		const options = {
 			method: 'POST',
 			headers: {
@@ -24,20 +35,12 @@ const NewMeetup = () => {
 
 		const response = await fetch(postEndpoint, options)
 		const result = await response.json()
+		// setAddingData(false)
 		console.log(result)
+
+		router.push('/all-meetups')
 	}
-	return (
-		<div className={styles.form}>
-			<h1>New meetup form</h1>
-			<form onSubmit={handleSubmit} /* action='/api/add-meetup' method='post'*/>
-				<input type='text' name='title' placeholder='Title' required />
-				<input type='text' name='description' placeholder='Description' required />
-				<input type='text' name='address' placeholder='Address' required />
-				<input type='text' name='imageUrl' placeholder='Meetup image url' required />
-				<input type='submit' value='Add the meetup' />
-			</form>
-		</div>
-	)
+	return <MeetupForm handleSubmit={handleSubmit} addingData={addingData} />
 }
 
-export default NewMeetup
+export default NewMeetupPage

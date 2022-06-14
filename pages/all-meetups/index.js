@@ -3,62 +3,48 @@ import styles from '../../styles/main.module.css'
 
 //components
 import Card from '../../components/Card'
+import AllMeetups from '../../components/meetups/AllMeetups'
 
 //next assets
 import Image from 'next/image'
 import Link from 'next/link'
 
-const Allmeetups = ({ data }) => {
+//mongodb
+import { MongoClient } from 'mongodb'
+
+const AllMeetupsPage = ({ data }) => {
 	console.log('data', data)
 	return (
 		<div>
 			<h1>All meetups</h1>
 			{data.map(item => (
-				<Card key={item.id}>
-					<Link href={'/' + item.id}>
-						<a>
-							<h3>{item.title}</h3>
-
-							<p>{item.description}</p>
-
-							<Image src={item.imageUrl} height={600} width={900} />
-							<address>{item.address}</address>
-						</a>
-					</Link>
-				</Card>
+				<AllMeetups item={item} key={item.id} />
 			))}
 		</div>
 	)
 }
 
 export async function getStaticProps() {
+	const MONGODB_CONNECTION_STRING = process.env.DB_MONGO_CONNECTION_STRING
+	const client = await MongoClient.connect(MONGODB_CONNECTION_STRING)
+	const db = client.db()
+	const meetupsCollection = db.collection('meetups')
+
+	const allMeetups = await meetupsCollection.find().toArray()
+
+	client.close()
 	return {
 		props: {
-			data: [
-				{
-					id: 1,
-					title: 'React Developers Kenya 2022 Meetup',
-					description: 'This is the best React developers meetup in Kenya!',
-					address: 'Ihub Senteu Plaza, Room 234',
-					imageUrl: 'https://images.pexels.com/photos/933964/pexels-photo-933964.jpeg',
-				},
-				{
-					id: 2,
-					title: 'Angular Developers Kenya 2022 Meetup',
-					description: 'This is the best Angular developers meetup in Kenya!',
-					address: 'Ihub Senteu Plaza, Room 239',
-					imageUrl: 'https://images.pexels.com/photos/3182826/pexels-photo-3182826.jpeg',
-				},
-				{
-					id: 3,
-					title: 'NodeJS Developers Kenya 2022 Meetup',
-					description: 'This is the best NodeJS developers meetup in Kenya!',
-					address: 'Ihub Senteu Plaza, Room 2',
-					imageUrl: 'https://images.pexels.com/photos/933964/pexels-photo-933964.jpeg',
-				},
-			],
+			data: allMeetups.map(meetup => ({
+				title: meetup.title,
+				description: meetup.description,
+				imageUrl: meetup.imageUrl,
+				address: meetup.address,
+				id: meetup._id.toString(),
+			})),
 		},
+		revalidate: 1,
 	}
 }
 
-export default Allmeetups
+export default AllMeetupsPage

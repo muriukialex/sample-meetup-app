@@ -1,16 +1,30 @@
-export default function handler(req, res) {
-	const requestBody = req.body
-	console.log('request body', requestBody)
+import { MongoClient } from 'mongodb'
 
-	if (!requestBody.title || !requestBody.description || !requestBody.address || !requestBody.imageUrl) {
-		return res.status(400).json({ data: 'title or description or addess or imageUrl not found!' })
+async function handler(req, res) {
+	const MONGODB_CONNECTION_STRING = process.env.DB_MONGO_CONNECTION_STRING
+
+	if (req.method == 'POST') {
+		const data = req.body
+
+		try {
+			const client = await MongoClient.connect(MONGODB_CONNECTION_STRING)
+			const db = client.db()
+			const meetupsCollection = db.collection('meetups')
+
+			try {
+				const result = await meetupsCollection.insertOne(data)
+				console.log('result', result)
+
+				client.close()
+
+				return res.status(201).json({ message: 'Meetup created successfully!' })
+			} catch (error) {
+				console.log(error)
+			}
+		} catch (error) {
+			console.log(error)
+		}
 	}
-	return res.status(200).json({
-		data: {
-			title: requestBody.title,
-			description: requestBody.description,
-			address: requestBody.address,
-			imageUrl: requestBody.imageUrl,
-		},
-	})
 }
+
+export default handler
