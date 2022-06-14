@@ -11,12 +11,6 @@ const Footer = () => {
 				<li>
 					<Link href='/about-us'>About</Link>
 				</li>
-				<li>
-					<Link href='/new-meetup'>Create a new meetups</Link>
-				</li>
-				<li>
-					<Link href='/all-meetups'>All meetups</Link>
-				</li>
 			</ul>
 		</footer>
 	)
