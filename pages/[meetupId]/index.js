@@ -4,7 +4,7 @@ import SingleMeetup from '../../components/meetups/SingleMeetup'
 //nextjs
 
 //mongodb
-import { MongoClient } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 
 const SingleMeetupPage = props => {
 	// const { id, title, description, imageUrl, address } = props
@@ -12,11 +12,11 @@ const SingleMeetupPage = props => {
 
 	return (
 		<SingleMeetup
-			id={1}
-			title={'My team'}
-			description={'desc'}
-			imageUrl={'https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg'}
-			address={'Naio'}
+			id={props.meetupData.id}
+			title={props.meetupData.title}
+			description={props.meetupData.description}
+			imageUrl={props.meetupData.imageUrl}
+			address={props.meetupData.address}
 		/>
 	)
 }
@@ -46,13 +46,19 @@ export async function getStaticProps(context) {
 	const db = client.db()
 	const meetupsCollection = db.collection('meetups')
 
-	const selectedMeetup = await meetupsCollection.findOne({ _id: meetupId })
+	const selectedMeetup = await meetupsCollection.findOne({ _id: ObjectId(meetupId) })
 	console.log('selected meetup', selectedMeetup)
 
 	client.close()
 	return {
 		props: {
-			meetupData: [], //selectedMeetup,
+			meetupData: {
+				id: selectedMeetup._id.toString(),
+				title: selectedMeetup.title,
+				description: selectedMeetup.description,
+				address: selectedMeetup.address,
+				imageUrl: selectedMeetup.imageUrl,
+			},
 		},
 	}
 }

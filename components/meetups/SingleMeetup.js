@@ -12,7 +12,7 @@ const SingleMeetup = props => {
 	return (
 		<div>
 			<div>
-				<h1>SingleMeetup {id}</h1>
+				<h1>Meetup Details</h1>
 				<Link href='/all-meetups'>
 					<a>
 						<Button>Back</Button>
