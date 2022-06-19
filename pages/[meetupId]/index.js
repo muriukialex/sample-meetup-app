@@ -7,9 +7,6 @@ import SingleMeetup from '../../components/meetups/SingleMeetup'
 import { MongoClient, ObjectId } from 'mongodb'
 
 const SingleMeetupPage = props => {
-	// const { id, title, description, imageUrl, address } = props
-	// console.log('props', props)
-
 	return (
 		<SingleMeetup
 			id={props.meetupData.id}
@@ -28,7 +25,6 @@ export async function getStaticPaths() {
 	const meetupsCollection = db.collection('meetups')
 
 	const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray()
-	console.log('meetups', meetups)
 	client.close()
 
 	return {
@@ -47,7 +43,6 @@ export async function getStaticProps(context) {
 	const meetupsCollection = db.collection('meetups')
 
 	const selectedMeetup = await meetupsCollection.findOne({ _id: ObjectId(meetupId) })
-	console.log('selected meetup', selectedMeetup)
 
 	client.close()
 	return {

@@ -13,7 +13,6 @@ import Link from 'next/link'
 import { MongoClient } from 'mongodb'
 
 const AllMeetupsPage = ({ data }) => {
-	console.log('data', data)
 	return (
 		<div>
 			<h1>All meetups</h1>

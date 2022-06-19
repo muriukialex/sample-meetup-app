@@ -3,7 +3,6 @@ import styles from '../../styles/form.module.css'
 
 const MeetupForm = props => {
 	const { handleSubmit, addingData } = props
-	console.log('adding Data state', addingData)
 
 	return (
 		<div className={styles.form}>
