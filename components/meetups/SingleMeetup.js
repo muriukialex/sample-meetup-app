@@ -22,7 +22,7 @@ const SingleMeetup = props => {
 			<Card key={id}>
 				<h3>{title}</h3>
 				<p>{description}</p>
-				{/* <Image src={imageUrl} height={600} width={900} /> */}
+				<Image src={imageUrl} height={600} width={900} />
 				<address>{address}</address>
 			</Card>
 		</div>

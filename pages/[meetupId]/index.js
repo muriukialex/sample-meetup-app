@@ -7,10 +7,36 @@ import SingleMeetup from '../../components/meetups/SingleMeetup'
 import { MongoClient } from 'mongodb'
 
 const SingleMeetupPage = props => {
-	const { id, title, description, imageUrl, address } = props
-	console.log('props', props)
+	// const { id, title, description, imageUrl, address } = props
+	// console.log('props', props)
 
-	return <SingleMeetup id={id} title={title} description={description} imageUrl={imageUrl} address={address} />
+	return (
+		<SingleMeetup
+			id={1}
+			title={'My team'}
+			description={'desc'}
+			imageUrl={'https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg'}
+			address={'Naio'}
+		/>
+	)
+}
+
+export async function getStaticPaths() {
+	const MONGODB_CONNECTION_STRING = process.env.DB_MONGO_CONNECTION_STRING
+	const client = await MongoClient.connect(MONGODB_CONNECTION_STRING)
+	const db = client.db()
+	const meetupsCollection = db.collection('meetups')
+
+	const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray()
+	console.log('meetups', meetups)
+	client.close()
+
+	return {
+		paths: meetups.map(meetup => ({
+			params: { meetupId: meetup._id.toString() },
+		})),
+		fallback: false,
+	}
 }
 
 export async function getStaticProps(context) {
@@ -21,29 +47,13 @@ export async function getStaticProps(context) {
 	const meetupsCollection = db.collection('meetups')
 
 	const selectedMeetup = await meetupsCollection.findOne({ _id: meetupId })
-	client.close()
+	console.log('selected meetup', selectedMeetup)
 
+	client.close()
 	return {
 		props: {
-			data: selectedMeetup,
+			meetupData: [], //selectedMeetup,
 		},
-	}
-}
-
-export async function getStaticPaths() {
-	const MONGODB_CONNECTION_STRING = process.env.DB_MONGO_CONNECTION_STRING
-	const client = await MongoClient.connect(MONGODB_CONNECTION_STRING)
-	const db = client.db()
-	const meetupsCollection = db.collection('meetups')
-
-	const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray()
-	client.close()
-
-	return {
-		paths: meetups.map(meetup => ({
-			params: { meetupId: meetup._id.toString() },
-		})),
-		fallback: false,
 	}
 }
 
