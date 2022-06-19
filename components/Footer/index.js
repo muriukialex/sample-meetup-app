@@ -11,6 +11,7 @@ const Footer = () => {
 				<li>
 					<Link href='/about-us'>About</Link>
 				</li>
+				<span className={styles['small-disclaimer']}>Images used here are from pexels.com </span>
 			</ul>
 		</footer>
 	)

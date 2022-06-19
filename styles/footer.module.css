@@ -11,3 +11,8 @@
 	list-style-type: none;
 	grid-template-columns: repeat(3, 1fr);
 }
+
+.small-disclaimer {
+	font-size: 0.7em;
+	color: #797474;
+}
