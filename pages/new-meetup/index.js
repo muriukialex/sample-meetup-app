@@ -3,16 +3,19 @@ import styles from '../../styles/form.module.css'
 
 //components
 import MeetupForm from '../../components/meetups/MeetupForm'
+import CreationSuccess from '../../components/CreationSuccess'
+import { ToastContainer, toast } from 'react-toastify'
 
 //nextjs
 import { useRouter } from 'next/router'
 
 //react
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const NewMeetupPage = () => {
 	const router = useRouter()
 	const [addingData, setAddingData] = useState(false)
+	const [success, setSuccess] = useState(null)
 	const handleSubmit = async event => {
 		setAddingData(true)
 		event.preventDefault()
@@ -35,12 +38,25 @@ const NewMeetupPage = () => {
 
 		const response = await fetch(postEndpoint, options)
 		const result = await response.json()
-		// setAddingData(false)
-		console.log(result)
+		//result contains the following object
+		/* 
+		{
+			message: Meetup created successfully!
+		}
+		*/
+		if (result.message === 'Meetup created successfully!') {
+			setSuccess(true)
+		}
 
-		router.push('/all-meetups')
+		setTimeout(() => {
+			router.push('/all-meetups')
+		}, 2500)
 	}
-	return <MeetupForm handleSubmit={handleSubmit} addingData={addingData} />
+	// useEffect(() => {
+	// 	setSuccess(true)
+	// }, [])
+	console.log('success info', success)
+	return <>{success ? <CreationSuccess /> : <MeetupForm handleSubmit={handleSubmit} addingData={addingData} />}</>
 }
 
 export default NewMeetupPage

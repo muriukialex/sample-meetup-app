@@ -8,7 +8,6 @@ import Card from '../Card'
 
 const SingleMeetup = props => {
 	const { id, title, imageUrl, address, description } = props
-	console.log(props)
 	return (
 		<div>
 			<div>
