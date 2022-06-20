@@ -11,10 +11,10 @@ const Main = () => {
 	return (
 		<div className={styles.main}>
 			<h1>Create your own meetup here</h1>
-			<div>It's super simple. What's required</div>
+			<div>Its super simple. Requirements?</div>
 			<ul>
 				<li>Your meetup name ✍🏼</li>
-				<li>Your meetup's meeting's address 🏘</li>
+				<li>Your meetup meeting address 🏘</li>
 				<li>An image of the meetups Location 🏠</li>
 			</ul>
 			<p>Super simple and fun!</p>
