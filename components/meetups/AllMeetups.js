@@ -14,7 +14,7 @@ const AllMeetups = props => {
 
 			<p>{item.description}</p>
 
-			<Image src={item.imageUrl} height={600} width={900} />
+			<Image src={item.imageUrl} height={600} width={900} alt={'meetup image'} />
 			<address>{item.address}</address>
 			<Link href={'/' + item.id}>
 				<a>
